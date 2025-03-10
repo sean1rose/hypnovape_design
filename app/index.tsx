@@ -8,6 +8,7 @@ import BalloonPlaceholder from '../assets/placeholder-balloon';
 import HandPlaceholder from '../assets/placeholder-hand';
 import MeditationPlaceholder from '../assets/placeholder-meditation';
 import PrismEffect from '../assets/prism-effect';
+import { useRouter } from 'expo-router';
 
 type MeditationPoint = 'A' | 'B' | 'C';
 
@@ -49,6 +50,7 @@ export default function Home() {
   const { width, height } = useWindowDimensions();
   const scrollViewRef = useRef<ScrollView>(null);
   const [scrollX] = useState(new Animated.Value(0));
+  const router = useRouter();
   
   // Animation values
   const [glowOpacity] = useState(new Animated.Value(0.5));
@@ -175,6 +177,19 @@ export default function Home() {
       const pageIndex = point === 'A' ? 0 : point === 'B' ? 1 : 2;
       scrollViewRef.current.scrollTo({ x: pageIndex * width, animated: true });
     }
+  };
+  
+  // Handle navigation to session screen
+  const handleStartSession = (point: MeditationPoint) => {
+    const session = meditationContent[point];
+    router.push({
+      pathname: '/session',
+      params: {
+        title: session.title,
+        subtitle: session.subtitle,
+        duration: session.duration
+      }
+    });
   };
   
   // Triangle dimensions - make it responsive
@@ -535,7 +550,10 @@ export default function Home() {
                     <meditationContent.A.ImageComponent width={80} height={80} />
                   </View>
                 </View>
-                <TouchableOpacity className="bg-green-600 py-4 items-center">
+                <TouchableOpacity 
+                  className="bg-green-600 py-4 items-center"
+                  onPress={() => handleStartSession('A')}
+                >
                   <Text className="text-white font-semibold">Start Module</Text>
                 </TouchableOpacity>
               </View>
