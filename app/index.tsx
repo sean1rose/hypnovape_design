@@ -6,6 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Svg, { Line, Circle, Defs, LinearGradient as SvgLinearGradient, Stop, Path } from 'react-native-svg';
 import BalloonPlaceholder from '../assets/placeholder-balloon';
 import HandPlaceholder from '../assets/placeholder-hand';
+import VapeXedOut from '../assets/vape-xed-out';
 import MeditationPlaceholder from '../assets/placeholder-meditation';
 import PrismEffect from '../assets/prism-effect';
 import { useRouter } from 'expo-router';
@@ -34,7 +35,7 @@ const meditationContent: Record<MeditationPoint, MeditationItem> = {
     subtitle: 'Conversation & Hypnosis',
     duration: '33 min',
     meditating: 0,
-    ImageComponent: HandPlaceholder,
+    ImageComponent: VapeXedOut,
   },
   C: {
     title: 'Session C: Quit Vaping Forever',
