@@ -23,21 +23,21 @@ interface MeditationItem {
 // Updated content for vaping cessation journey
 const meditationContent: Record<MeditationPoint, MeditationItem> = {
   A: {
-    title: 'Session A: The Beginning of the End of Your Vaping',
+    title: 'Session A: Beginning of the End',
     subtitle: 'Conversation & Hypnosis',
     duration: '28 min',
     meditating: 0,
     ImageComponent: BalloonPlaceholder,
   },
   B: {
-    title: 'Session B: Quit Vaping Now, Forever',
+    title: 'Session B: Quit Vaping Now',
     subtitle: 'Conversation & Hypnosis',
     duration: '33 min',
     meditating: 0,
     ImageComponent: HandPlaceholder,
   },
   C: {
-    title: 'Session C: The First Day of the Rest of Your Life',
+    title: 'Session C: Quit Vaping Forever',
     subtitle: 'Conversation & Hypnosis',
     duration: '29 min',
     meditating: 324,
@@ -580,7 +580,7 @@ export default function Home() {
                       <Text className="text-gray-300 text-sm ml-1">{meditationContent.B.duration}</Text>
                     </View>
                     <View className="mt-2">
-                      <Text className="text-gray-400 text-xs">Complete previous module to unlock</Text>
+                      <Text className="text-gray-400 text-xs">Upgrade to unlock all modules.</Text>
                     </View>
                   </View>
                   <View className="w-24 h-24 bg-blue-900/30 rounded-2xl overflow-hidden justify-center items-center">
@@ -614,18 +614,8 @@ export default function Home() {
                       <Text className="text-gray-300 text-sm ml-1">{meditationContent.C.duration}</Text>
                     </View>
                     <View className="mt-2">
-                      <Text className="text-gray-400 text-xs">Complete previous modules to unlock</Text>
+                      <Text className="text-gray-400 text-xs">This module will unlock 7 days after completion of Module B.</Text>
                     </View>
-                    {meditationContent.C.meditating > 0 && (
-                      <View className="flex-row items-center mt-2">
-                        <View className="flex-row">
-                          {Array(3).fill(0).map((_, i) => (
-                            <View key={i} className="w-3 h-3 rounded-full bg-purple-500 mr-1" />
-                          ))}
-                        </View>
-                        <Text className="text-gray-300 text-sm ml-2">{meditationContent.C.meditating} people here</Text>
-                      </View>
-                    )}
                   </View>
                   <View className="w-24 h-24 bg-purple-900/30 rounded-2xl overflow-hidden justify-center items-center">
                     <meditationContent.C.ImageComponent width={80} height={80} />
