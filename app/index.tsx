@@ -10,6 +10,7 @@ import VapeXedOut from '../assets/vape-xed-out';
 import MeditationPlaceholder from '../assets/placeholder-meditation';
 import PrismEffect from '../assets/prism-effect';
 import { useRouter } from 'expo-router';
+import PurchaseScreen from '../components/PurchaseScreen';
 
 type MeditationPoint = 'A' | 'B' | 'C';
 
@@ -52,6 +53,7 @@ export default function Home() {
   const scrollViewRef = useRef<ScrollView>(null);
   const [scrollX] = useState(new Animated.Value(0));
   const router = useRouter();
+  const [showPurchaseScreen, setShowPurchaseScreen] = useState(false);
   
   // Animation values
   const [glowOpacity] = useState(new Animated.Value(0.5));
@@ -182,15 +184,21 @@ export default function Home() {
   
   // Handle navigation to session screen
   const handleStartSession = (point: MeditationPoint) => {
-    const session = meditationContent[point];
-    router.push({
-      pathname: '/session',
-      params: {
-        title: session.title,
-        subtitle: session.subtitle,
-        duration: session.duration
-      }
-    });
+    // Only allow access to session A, show purchase screen for B and C
+    if (point === 'A') {
+      const session = meditationContent[point];
+      router.push({
+        pathname: '/session',
+        params: {
+          title: session.title,
+          subtitle: session.subtitle,
+          duration: session.duration
+        }
+      });
+    } else {
+      // Show purchase screen for locked modules
+      setShowPurchaseScreen(true);
+    }
   };
   
   // Triangle dimensions - make it responsive
@@ -258,6 +266,12 @@ export default function Home() {
   
   return (
     <SafeAreaView className="flex-1 bg-black">
+      {/* Purchase Screen Modal */}
+      <PurchaseScreen 
+        visible={showPurchaseScreen} 
+        onClose={() => setShowPurchaseScreen(false)} 
+      />
+      
       {/* Dark Side of the Moon inspired background */}
       <View className="absolute inset-0">
         <LinearGradient
@@ -588,9 +602,12 @@ export default function Home() {
                     <meditationContent.B.ImageComponent width={80} height={80} />
                   </View>
                 </View>
-                <View className="bg-gray-700/50 py-4 items-center">
-                  <Text className="text-gray-400 font-semibold">Locked</Text>
-                </View>
+                <TouchableOpacity 
+                  className="bg-gray-700/50 py-4 items-center"
+                  onPress={() => setShowPurchaseScreen(true)}
+                >
+                  <Text className="text-blue-400 font-semibold">Unlock</Text>
+                </TouchableOpacity>
               </View>
             </Animated.View>
             
@@ -622,9 +639,12 @@ export default function Home() {
                     <meditationContent.C.ImageComponent width={80} height={80} />
                   </View>
                 </View>
-                <View className="bg-gray-700/50 py-4 items-center">
-                  <Text className="text-gray-400 font-semibold">Locked</Text>
-                </View>
+                <TouchableOpacity 
+                  className="bg-gray-700/50 py-4 items-center"
+                  onPress={() => setShowPurchaseScreen(true)}
+                >
+                  <Text className="text-blue-400 font-semibold">Unlock</Text>
+                </TouchableOpacity>
               </View>
             </Animated.View>
           </Animated.ScrollView>
